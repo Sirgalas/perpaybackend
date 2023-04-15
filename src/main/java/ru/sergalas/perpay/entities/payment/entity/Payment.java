@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.sergalas.perpay.annotation.UuidGenerator;
-import ru.sergalas.perpay.entities.users.entity.UsersCompanies;
+import ru.sergalas.perpay.entities.users.entities.UsersCompanies;
 
 import javax.persistence.*;
 import java.util.UUID;

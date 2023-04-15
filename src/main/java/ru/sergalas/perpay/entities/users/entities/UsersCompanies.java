@@ -1,10 +1,9 @@
-package ru.sergalas.perpay.entities.users.entity;
+package ru.sergalas.perpay.entities.users.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 import ru.sergalas.perpay.annotation.UuidGenerator;
 import ru.sergalas.perpay.entities.companies.entity.Companies;
 import ru.sergalas.perpay.entities.payment.entity.Payment;

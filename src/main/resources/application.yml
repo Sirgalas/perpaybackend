@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:54325/perpay
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        batch_size: 50
+        fetch_size: 50
+        hbm2ddl.auto: update
+    show-sql: true
+  liquibase:
+    enabled: false
+springdoc:
+  show-login-endpoint: true
