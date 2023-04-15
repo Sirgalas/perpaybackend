@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.10'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
+apply from: 'version.gradle'
 
 group = 'ru.sergalas'
 version = '0.0.1-SNAPSHOT'
@@ -24,9 +25,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.liquibase:liquibase-core'
+	implementation "org.springdoc:springdoc-openapi-ui:${versions.springdoc}"
+	implementation "org.springdoc:springdoc-openapi-security:${versions.springdoc}"
+	implementation "com.google.code.gson:gson:${versions.gson}"
+	implementation "io.jsonwebtoken:jjwt-api:${versions.jjwt}"
+	implementation "org.json:json:${versions.json}"
+	compileOnly "org.mapstruct:mapstruct:${versions.mapstruct}"
+
 	compileOnly 'org.projectlombok:lombok'
+
 	runtimeOnly 'org.postgresql:postgresql'
+
 	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
