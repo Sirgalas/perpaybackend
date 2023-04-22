@@ -1,4 +1,3 @@
-
 package ru.sergalas.perpay.security.controller;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -37,12 +36,6 @@ public class AuthController {
     private JWTTokenProvider jwtTokenProvider;
     @Autowired
     private UserAuthService userAuthService;
-
-    @GetMapping("/hello")
-    private String test ()
-    {
-        return "test";
-    }
 
     @PostMapping("/signup")
     public ResponseEntity<Object> signUp(@Valid @RequestBody SignupRequestDto signupRequest, BindingResult bindingResult) throws UserSignException {

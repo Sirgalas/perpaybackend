@@ -21,13 +21,8 @@ public class User implements UserDetails {
     @UuidGenerator
     private UUID id;
 
-    @Column(unique = true,nullable = false)
-    private String username;
-
-    @Column(nullable = false)
-    private String firstname;
-
-    private String lastname;
+    @Column(unique = true,nullable = false, name = "phone_number")
+    private String phoneNumber;
 
     @Column(unique = true)
     private String email;
@@ -38,9 +33,9 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user")
     private UsersCompanies usersCompanies;
 
-    public User (UUID id, String username, String email, String password) {
+    public User (UUID id, String phoneNumber, String email, String password) {
         this.id = id;
-        this.username = username;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
     }
@@ -68,5 +63,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getPhoneNumber();
     }
 }

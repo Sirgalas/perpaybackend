@@ -4,6 +4,7 @@ package ru.sergalas.perpay.security.providers;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Encoders;
@@ -25,8 +26,8 @@ public class JWTTokenProvider {
     public static final Logger LOG = LoggerFactory.getLogger(JWTTokenProvider.class);
 
 
-    private SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-    private String base64Key = Encoders.BASE64.encode(key.getEncoded());
+    private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private final String base64Key = Encoders.BASE64.encode(key.getEncoded());
 
 
 
@@ -39,8 +40,7 @@ public class JWTTokenProvider {
         Map<String,Object> claimsMap = new HashMap<>();
         claimsMap.put("id",userId);
         claimsMap.put("username",user.getUsername());
-        claimsMap.put("firstname",user.getFirstname());
-        claimsMap.put("lastname",user.getLastname());
+
 
         return Jwts.builder()
                 .setSubject(userId)
@@ -67,7 +67,7 @@ public class JWTTokenProvider {
         }
     }
 
-    public Long getUserIdFromToken(String token) {
+    public UUID getUserIdFromToken(String token) {
         
         Claims claims =  Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -75,7 +75,7 @@ public class JWTTokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
 
-        return Long.parseLong((String) claims.get("id"));
+        return (UUID) claims.get("id");
     }
 
 }

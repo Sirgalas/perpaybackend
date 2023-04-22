@@ -13,6 +13,7 @@ import ru.sergalas.perpay.security.exceptions.UserSignException;
 import ru.sergalas.perpay.security.dto.request.SignupRequestDto;
 
 import java.security.Principal;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +27,9 @@ public class UserAuthService {
 
     public User createUser(SignupRequestDto userIn) throws UserSignException {
         User user = new User();
+        user.setId(UUID.randomUUID());
         user.setEmail(userIn.getEmail());
-        user.setUsername(userIn.getUsername());
-        user.setFirstname(userIn.getFirstname());
-        userIn.setLastname(userIn.getLastname());
-        user.setLastname(userIn.getLastname());
+        user.setPhoneNumber(userIn.getPhoneNumber());
         user.setPassword(passwordEncoder.encode(userIn.getPassword()));
         try {
             LOG.info("User " + user.getUsername() + " created !");

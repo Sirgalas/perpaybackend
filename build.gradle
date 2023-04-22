@@ -35,6 +35,10 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 
 	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly "io.jsonwebtoken:jjwt-impl:${versions.jjwtimpl}"
+	runtimeOnly("io.jsonwebtoken:jjwt-orgjson:${versions.jjwtimpl}") {
+		exclude group: 'org.json', module: 'json'
+	}
 
 	annotationProcessor 'org.projectlombok:lombok'
 
