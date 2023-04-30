@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.sergalas.perpay.annotation.UuidGenerator;
-import ru.sergalas.perpay.entities.companies.entity.Companies;
+import ru.sergalas.perpay.entities.companies.entity.Company;
 import ru.sergalas.perpay.entities.payment.entity.Payment;
 
 import javax.persistence.*;
@@ -30,11 +30,18 @@ public class UsersCompanies {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
-    private Companies company;
+    private Company company;
 
     @Column(name = "subscriber_code")
     private String subscriberCode;
 
     @OneToMany(mappedBy="usersCompanies")
     private Set<Payment> payments;
+
+    public UsersCompanies(User user, Company company)
+    {
+        id = UUID.randomUUID();
+        this.user = user;
+        this.company = company;
+    }
 }

@@ -1,8 +1,12 @@
 package ru.sergalas.perpay.entities.users.dto;
 
-import javax.persistence.Column;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import java.util.UUID;
 
+
+@RequiredArgsConstructor
+@Data
 public class UserReadDTO {
 
     private UUID id;

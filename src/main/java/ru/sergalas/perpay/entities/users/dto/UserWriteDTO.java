@@ -1,12 +1,17 @@
 package ru.sergalas.perpay.entities.users.dto;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 import java.util.UUID;
 
+@RequiredArgsConstructor
+@Data
 public class UserWriteDTO {
 
-    private UUID id;
+    public UUID id;
 
-    private String phoneNumber;
+    public String phoneNumber;
 
-    private String email;
+    public String email;
 }

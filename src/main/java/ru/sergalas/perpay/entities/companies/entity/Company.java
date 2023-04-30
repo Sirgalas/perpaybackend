@@ -18,7 +18,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "companies")
-public class Companies {
+public class Company {
 
     @Id
     @UuidGenerator

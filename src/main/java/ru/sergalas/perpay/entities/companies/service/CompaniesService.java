@@ -3,6 +3,7 @@ package ru.sergalas.perpay.entities.companies.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.sergalas.perpay.entities.companies.dto.CompanyMessageDTO;
 import ru.sergalas.perpay.entities.companies.dto.CompanyReadDTO;
 import ru.sergalas.perpay.entities.companies.dto.CompanyWriteDTO;
 import ru.sergalas.perpay.entities.companies.exceptions.CompanyNotFoundException;
@@ -19,8 +20,7 @@ import java.util.UUID;
 public class CompaniesService {
 
     private final CompaniesRepository companiesRepository;
-
-    private final CompanyMapper  companyMapper;
+    private final CompanyMapper companyMapper;
 
     public List<CompanyReadDTO> findAll() {
         return companiesRepository.findAll()
@@ -48,6 +48,16 @@ public class CompaniesService {
                 .map(dto -> companyMapper.toEntity(companyWriteDTO))
                 .map(companiesRepository::saveAndFlush)
                 .map(companyMapper::toDTO);
+    }
+
+    @Transactional
+    public boolean delete(String id) {
+        return companiesRepository.findById(UUID.fromString(id))
+                .map(company -> {
+                    companiesRepository.delete(company);
+                    companiesRepository.flush();
+                    return true;
+                }).orElse(false);
     }
 
 }

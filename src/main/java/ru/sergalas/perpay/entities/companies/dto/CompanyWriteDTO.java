@@ -3,18 +3,17 @@ package ru.sergalas.perpay.entities.companies.dto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Column;
 import java.util.UUID;
 
 @RequiredArgsConstructor
 @Data
 public class CompanyWriteDTO {
 
-    private UUID id;
+    public UUID id;
 
-    private String name;
+    public String name;
 
-    private String address;
+    public String address;
 
-    private String currentAccounts;
+    public String currentAccounts;
 }

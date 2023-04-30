@@ -8,6 +8,7 @@ import ru.sergalas.perpay.annotation.UuidGenerator;
 import ru.sergalas.perpay.entities.users.entities.UsersCompanies;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -22,8 +23,19 @@ public class Payment {
     @UuidGenerator
     private UUID id;
 
+    private Float payment;
+
+    @Column(name = "payment_date")
+    private LocalDate paymentDate;
+
     @ManyToOne
     @JoinColumn(name="user_company_id", nullable=false)
     private UsersCompanies usersCompanies;
+
+    public Payment(String id,Float payment, LocalDate paymentDate) {
+        this.id = UUID.fromString(id);
+        this.payment = payment;
+        this.paymentDate = paymentDate;
+    }
 
 }
