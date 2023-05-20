@@ -2,6 +2,7 @@ package ru.sergalas.perpay.entities.companies.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import ru.sergalas.perpay.entities.users.entities.User;
 import ru.sergalas.perpay.entities.companies.dto.CompanyReadDTO;
 import ru.sergalas.perpay.entities.companies.entity.Company;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@Component
 public class CompanyDslImpl implements CompanyDsl {
 
     private final JdbcTemplate jdbcTemplate;

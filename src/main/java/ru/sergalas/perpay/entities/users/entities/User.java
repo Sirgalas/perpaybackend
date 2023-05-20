@@ -7,6 +7,8 @@ import ru.sergalas.perpay.annotation.UuidGenerator;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -32,6 +34,11 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user")
     private UsersCompanies usersCompanies;
+
+    @ElementCollection(targetClass = Role.class)
+    @CollectionTable(name="user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Builder.Default
+    private Set<Role> roles = new HashSet<>();
 
     public User (UUID id, String phoneNumber, String email, String password) {
         this.id = id;

@@ -9,7 +9,13 @@ import ru.sergalas.perpay.entities.companies.dto.CompanyWriteDTO;
 import ru.sergalas.perpay.entities.companies.exceptions.CompanyNotFoundException;
 import ru.sergalas.perpay.entities.companies.mappers.CompanyMapper;
 import ru.sergalas.perpay.entities.companies.repository.CompaniesRepository;
+import ru.sergalas.perpay.entities.users.entities.Role;
+import ru.sergalas.perpay.entities.users.entities.User;
+import ru.sergalas.perpay.entities.users.exception.NotAllowException;
+import ru.sergalas.perpay.entities.users.exception.UserNotFoundException;
+import ru.sergalas.perpay.entities.users.repository.UserRepository;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,6 +27,7 @@ public class CompaniesService {
 
     private final CompaniesRepository companiesRepository;
     private final CompanyMapper companyMapper;
+    private final UserRepository userRepository;
 
     public List<CompanyReadDTO> findAll() {
         return companiesRepository.findAll()
@@ -34,7 +41,8 @@ public class CompaniesService {
     }
 
     @Transactional
-    public CompanyReadDTO create(CompanyWriteDTO company) {
+    public CompanyReadDTO create(CompanyWriteDTO company, Principal principal) throws UserNotFoundException, NotAllowException {
+        findUserAndAllowed(principal);
         return Optional.of(company)
                 .map(dto -> companyMapper.toEntity(company))
                 .map(companiesRepository::save)
@@ -43,7 +51,8 @@ public class CompaniesService {
     }
 
     @Transactional
-    public Optional<CompanyReadDTO> edit(String id, CompanyWriteDTO companyWriteDTO) {
+    public Optional<CompanyReadDTO> edit(String id, CompanyWriteDTO companyWriteDTO, Principal principal) throws UserNotFoundException, NotAllowException {
+        findUserAndAllowed(principal);
         return companiesRepository.findById(UUID.fromString(id))
                 .map(dto -> companyMapper.toEntity(companyWriteDTO))
                 .map(companiesRepository::saveAndFlush)
@@ -51,13 +60,27 @@ public class CompaniesService {
     }
 
     @Transactional
-    public boolean delete(String id) {
+    public CompanyMessageDTO delete(String id, Principal principal) throws UserNotFoundException, NotAllowException {
+        findUserAndAllowed(principal);
         return companiesRepository.findById(UUID.fromString(id))
-                .map(company -> {
-                    companiesRepository.delete(company);
-                    companiesRepository.flush();
-                    return true;
-                }).orElse(false);
+            .map(company -> {
+                companiesRepository.delete(company);
+                companiesRepository.flush();
+                return new CompanyMessageDTO("Company has deleted");
+            }) .orElse (
+                    new CompanyMessageDTO("Company has deleted")
+            );
+    }
+
+    private void findUserAndAllowed(Principal principal) throws UserNotFoundException, NotAllowException {
+        User user = userRepository
+                .findUserByPhoneNumber(principal.getName())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        if(!user.getRoles().contains(Role.ADMIN)) {
+                throw new NotAllowException("Not allow");
+        }
+
     }
 
 }

@@ -1,6 +1,7 @@
 package ru.sergalas.perpay.entities.users.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.sergalas.perpay.entities.companies.dto.CompanyReadDTO;
@@ -10,6 +11,7 @@ import ru.sergalas.perpay.entities.companies.mappers.CompanyMapper;
 import ru.sergalas.perpay.entities.companies.repository.CompaniesRepository;
 import ru.sergalas.perpay.entities.users.dto.UserReadDTO;
 import ru.sergalas.perpay.entities.users.dto.UserWriteDTO;
+import ru.sergalas.perpay.entities.users.entities.User;
 import ru.sergalas.perpay.entities.users.entities.UsersCompanies;
 import ru.sergalas.perpay.entities.users.exception.UserNotFoundException;
 import ru.sergalas.perpay.entities.users.mappers.UserMapper;
@@ -46,8 +48,10 @@ public class UserService {
         return companyMapper.toDTO(companies);
     }
 
-    public CompanyReadDTO editSubscriberCode(String id, String subscriberCode) throws CompanyNotFoundException {
-        return usersCompaniesRepository.findById(UUID.fromString(id))
+    public CompanyReadDTO editSubscriberCode(String id, String subscriberCode, Principal principal) throws CompanyNotFoundException {
+        User user = repository.findUserByPhoneNumber(principal.getName())
+                .orElseThrow(()->new UsernameNotFoundException("User not found"));
+        return usersCompaniesRepository.findByIdAndAndUser(UUID.fromString(id),user)
                 .map(usersCompanies -> {
                     usersCompanies.setSubscriberCode(subscriberCode);
                     return usersCompanies;

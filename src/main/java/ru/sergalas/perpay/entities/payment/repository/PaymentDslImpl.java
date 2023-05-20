@@ -2,6 +2,7 @@ package ru.sergalas.perpay.entities.payment.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import ru.sergalas.perpay.entities.payment.dto.PaymentReadDTO;
 import ru.sergalas.perpay.entities.payment.entity.Payment;
 import ru.sergalas.perpay.entities.payment.mappers.PaymentMapper;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@Component
 public class PaymentDslImpl implements PaymentDsl{
 
     private final JdbcTemplate jdbcTemplate;
